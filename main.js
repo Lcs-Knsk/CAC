@@ -12,7 +12,8 @@ function GameLoop(){
     //runs all of the character functions
     char.Loop()
 
-    //enemy functions
+    //enemy functions yey
+   
 
 
     //update score
