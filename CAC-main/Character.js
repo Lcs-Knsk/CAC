@@ -53,14 +53,14 @@ class Character{
         if(this.Move.Down){
             Imap.MapY += this.Main.Speed;
         }
-        else if(this.Move.Left){
+        if(this.Move.Left){
             Imap.MapX -= this.Main.Speed;
         }
         
-        else if(this.Move.Right){
+        if(this.Move.Right){
             Imap.MapX += this.Main.Speed;
         }
-        else if(this.Move.Up){
+        if(this.Move.Up){
             Imap.MapY -= this.Main.Speed;
         }
 
@@ -85,16 +85,16 @@ class Character{
     }
 
     DetectAnimRow(){
-        if(this.Move.Down){
-            this.Anim.FrameRow = 0;
+        if(this.Move.Right){
+            this.Anim.FrameRow = 2;
             this.Anim.Animate = true;
         }
         else if(this.Move.Left){
             this.Anim.FrameRow = 1;
             this.Anim.Animate = true;
         }
-        else if(this.Move.Right){
-            this.Anim.FrameRow = 2;
+        else if(this.Move.Down){
+            this.Anim.FrameRow = 0;
             this.Anim.Animate = true;
         }
         else if(this.Move.Up){
