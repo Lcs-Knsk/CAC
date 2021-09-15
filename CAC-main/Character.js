@@ -85,20 +85,20 @@ class Character{
     }
 
     DetectAnimRow(){
-        if(this.Move.Right){
-            this.Anim.FrameRow = 2;
-            this.Anim.Animate = true;
-        }
-        else if(this.Move.Left){
-            this.Anim.FrameRow = 1;
-            this.Anim.Animate = true;
-        }
-        else if(this.Move.Down){
+        if(this.Move.Down){
             this.Anim.FrameRow = 0;
             this.Anim.Animate = true;
         }
         else if(this.Move.Up){
             this.Anim.FrameRow = 3;
+            this.Anim.Animate = true;
+        }
+        else if(this.Move.Right){
+            this.Anim.FrameRow = 2;
+            this.Anim.Animate = true;
+        }
+        else if(this.Move.Left){
+            this.Anim.FrameRow = 1;
             this.Anim.Animate = true;
         }
         else{
