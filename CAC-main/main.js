@@ -32,7 +32,7 @@ window.onload = new function(){
     setInterval(GameLoop, 16.6);
     
     //starts the player animation loop||PROBABLY A BETTER WAY TO DO THIS
-    setInterval(SetPlayerFrameRow, 300);
+    setInterval(SetPlayerFrameRow, 150);
 
 }
 
