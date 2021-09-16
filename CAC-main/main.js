@@ -30,7 +30,7 @@ window.onload = new function(){
     InnitEverything();
 
     //starts the gameloop
-    setInterval(GameLoop, 16.6);
+    setInterval(GameLoop, 8);
     
     //starts the player animation loop||PROBABLY A BETTER WAY TO DO THIS
     setInterval(SetPlayerFrameRow, 150);
