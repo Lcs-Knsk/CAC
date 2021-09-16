@@ -15,6 +15,7 @@ function GameLoop(){
     char.Loop()
 
     //enemy functions
+    drawBoat();
 
 
     //update score
@@ -58,6 +59,8 @@ char;
 //#region Key presses
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
+
+
 
 
 //turns on all of the movement for the player

@@ -1,14 +1,13 @@
 class IslandMap{
     constructor(){
-        //These two vars are the coords for the top left of the map generation
-        this.MapX = 0;
-        this.MapY = 0;
+        this.MapX = 500;
+        this.MapY = 400;
 
         this.ScreenWidth = 600;
         this.ScreenHeight = 400;
 
         this.mapThing = new Image;
-        this.mapThing.src = "SpritesAndStuff/cacTrueMap.png"     
+        this.mapThing.src = "SpritesAndStuff/TestIsland.png"     
     }
 
     DrawMap(){
