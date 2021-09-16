@@ -50,17 +50,35 @@ class Character{
 
     //Moves the map
     MoveChar(){
-        if(this.Move.Down){
-            Imap.MapY += this.Main.Speed;
+        if(this.Move.Left && this.Move.Down){
+            Imap.MapY += this.Main.Speed - 0.4;
+            Imap.MapX -= this.Main.Speed;
         }
-        if(this.Move.Left){
+        if(this.Move.Left && this.Move.Up){
+            Imap.MapY += this.Main.Speed - 1.8;
             Imap.MapX -= this.Main.Speed;
         }
         
-        if(this.Move.Right){
+        if(this.Move.Right && this.Move.Down){
+            Imap.MapY -= this.Main.Speed - 1.8;
+            Imap.MapX -= this.Main.Speed - 1.8;
+        }
+        if(this.Move.Right && this.Move.Up){
+            Imap.MapY -= this.Main.Speed;
+            Imap.MapX -= this.Main.Speed - 1.8;
+        }
+        
+        if(this.Move.Down && this.Move.Up == false && this.Move.Left == false && this.Move.Right == false){
+            Imap.MapY += this.Main.Speed;
+        }
+        if(this.Move.Left && this.Move.Up == false && this.Move.Right == false && this.Move.Down == false ){
+            Imap.MapX -= this.Main.Speed;
+        }
+        
+        if(this.Move.Right && this.Move.Up == false && this.Move.Left == false && this.Move.Down == false){
             Imap.MapX += this.Main.Speed;
         }
-        if(this.Move.Up){
+        if(this.Move.Up && this.Move.Down == false && this.Move.Left == false && this.Move.Right == false){
             Imap.MapY -= this.Main.Speed;
         }
 
