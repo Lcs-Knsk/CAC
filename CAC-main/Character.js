@@ -51,24 +51,24 @@ class Character{
     //Moves the map
     MoveChar(){
         if(this.Move.Left && this.Move.Down){
-            Imap.MapY += this.Main.Speed/1.4;
-            Imap.MapX -= this.Main.Speed/1.4;
+            Imap.MapY += this.Main.Speed/1.7;
+            Imap.MapX -= this.Main.Speed/1.9;
         }
         else if(this.Move.Right && this.Move.Down){
-            Imap.MapY -= this.Main.Speed/-1.4;
-            Imap.MapX -= this.Main.Speed/-1.4;
+            Imap.MapY -= this.Main.Speed/-1.7;
+            Imap.MapX -= this.Main.Speed/-1.9;
         }
         if(this.Move.Left && this.Move.Up){
-            Imap.MapY += this.Main.Speed/-1.4;
-            Imap.MapX -= this.Main.Speed/1.4;
+            Imap.MapY += this.Main.Speed/-1.7;
+            Imap.MapX -= this.Main.Speed/1.9;
         }
         else if(this.Move.Right && this.Move.Up){
-            Imap.MapY -= this.Main.Speed/1.4;
-            Imap.MapX -= this.Main.Speed/-1.4;
+            Imap.MapY -= this.Main.Speed/1.7;
+            Imap.MapX -= this.Main.Speed/-1.9;
         }
         
         if(this.Move.Down && this.Move.Up == false && this.Move.Left == false && this.Move.Right == false){
-            Imap.MapY += this.Main.Speed;
+            Imap.MapY += this.Main.Speed/1.3;
         }
         if(this.Move.Left && this.Move.Up == false && this.Move.Right == false && this.Move.Down == false ){
             Imap.MapX -= this.Main.Speed;
@@ -78,7 +78,7 @@ class Character{
             Imap.MapX += this.Main.Speed;
         }
         if(this.Move.Up && this.Move.Down == false && this.Move.Left == false && this.Move.Right == false){
-            Imap.MapY -= this.Main.Speed;
+            Imap.MapY -= this.Main.Speed/1.3;
         }
 
 
