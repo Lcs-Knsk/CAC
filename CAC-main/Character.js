@@ -23,15 +23,15 @@ class Character{
             FrameRow: 0,
             PlayerImage: new Image,
 
-            FrameWidth: 48,
-            FrameHeight: 63,
+            FrameWidth: 50,
+            FrameHeight: 64,
 
             FrameNumber: 0,
             HighFrameNumber: 3,
             Animate: true
         }
 
-        this.Anim.PlayerImage.src = "SpritesAndStuff/NewChar.png";
+        this.Anim.PlayerImage.src = "SpritesAndStuff/Char.png";
 
     }
 
@@ -90,11 +90,11 @@ class Character{
         this.DetectAnimRow();
 
         if(this.Anim.Animate){
-            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth+16)*this.Anim.FrameNumber, this.Anim.FrameHeight*this.Anim.FrameRow,
+            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*this.Anim.FrameNumber, this.Anim.FrameHeight*this.Anim.FrameRow,
             this.Anim.FrameWidth, this.Anim.FrameHeight, this.Main.X, this.Main.Y, this.Anim.FrameWidth, this.Anim.FrameHeight);
         }
         else{
-            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth+16)*1, this.Anim.FrameHeight*0,
+            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*1, this.Anim.FrameHeight*0,
                 this.Anim.FrameWidth, this.Anim.FrameHeight, this.Main.X, this.Main.Y, this.Anim.FrameWidth, this.Anim.FrameHeight);
         }
 
