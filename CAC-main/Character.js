@@ -122,6 +122,10 @@ class Character{
             //makes the animation stop||plays idle animation(not really an animation though)
             this.Anim.Animate = false;
         }
+        if(this.Move.Down && this.Move.Up || this.Move.Right && this.Move.Left){
+            this.Anim.Animate = false;
+        }
+
     }
 
 }
