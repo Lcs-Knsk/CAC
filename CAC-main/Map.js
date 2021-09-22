@@ -1,13 +1,13 @@
 class IslandMap{
     constructor(){
-        this.MapX = 500;
+        this.MapX = 2000;
         this.MapY = 400;
 
         this.ScreenWidth = 600;
         this.ScreenHeight = 400;
 
         this.mapThing = new Image;
-        this.mapThing.src = "SpritesAndStuff/TestIsland.png"     
+        this.mapThing.src = "SpritesAndStuff/FinalIsland.png"     
     }
 
     DrawMap(){
