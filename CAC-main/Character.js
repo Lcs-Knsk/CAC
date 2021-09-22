@@ -94,7 +94,7 @@ class Character{
             this.Anim.FrameWidth, this.Anim.FrameHeight, this.Main.X, this.Main.Y, this.Anim.FrameWidth, this.Anim.FrameHeight);
         }
         else{
-            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*1, this.Anim.FrameHeight*0,
+            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*1, this.Anim.FrameHeight*this.Anim.FrameRow,
                 this.Anim.FrameWidth, this.Anim.FrameHeight, this.Main.X, this.Main.Y, this.Anim.FrameWidth, this.Anim.FrameHeight);
         }
 
