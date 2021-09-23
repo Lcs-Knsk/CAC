@@ -7,7 +7,9 @@ class Character{
             Height: 64,
             Width: 48,
 
-            Speed: 1.5,
+            XSpeed: 2,
+            YSpeed: 1.5,
+            Angle: "Nothing",
         }
 
         //contains all of the movement variables of the character
@@ -26,18 +28,30 @@ class Character{
             FrameWidth: 50,
             FrameHeight: 64,
 
-            FrameNumber: 0,
+            FrameNumber: 1,
             HighFrameNumber: 3,
             Animate: true
         }
 
         this.Anim.PlayerImage.src = "SpritesAndStuff/Char.png";
 
+        this.KCombo = ["nothing", "nothing", "nothing"]
+        
+        this.KeysDown = {
+            W: false,
+            A: false,
+            S: false,
+            D: false,
+        };
+    
     }
 
     Loop(){
         //Movement
         this.MoveChar();
+        this.CrazyCircleStuff();
+
+
 
         //Draw
         this.Animation();
@@ -50,38 +64,53 @@ class Character{
 
     //Moves the map
     MoveChar(){
-        if(this.Move.Left && this.Move.Down){
-            Imap.MapY += this.Main.Speed/1.7;
-            Imap.MapX -= this.Main.Speed/1.9;
+        if(this.KCombo[0] == "left" && this.KCombo[1] == "up" && this.KCombo[2] == "XMove"){
+            this.Main.Angle = (5/6)*Math.PI;
         }
-        else if(this.Move.Right && this.Move.Down){
-            Imap.MapY -= this.Main.Speed/-1.7;
-            Imap.MapX -= this.Main.Speed/-1.9;
+        else if(this.KCombo[0] == "left" && this.KCombo[1] == "down" && this.KCombo[2] == "XMove"){
+            this.Main.Angle = (7/6)*Math.PI;
         }
-        if(this.Move.Left && this.Move.Up){
-            Imap.MapY += this.Main.Speed/-1.7;
-            Imap.MapX -= this.Main.Speed/1.9;
+        else if(this.KCombo[0] == "left" && this.KCombo[1] == "nothing" && this.KCombo[2] == "XMove"){
+            this.Main.Angle = Math.PI
+        }        
+        else if(this.KCombo[0] == "right" && this.KCombo[1] == "up" && this.KCombo[2] == "XMove"){
+            this.Main.Angle = (1/6)*Math.PI            
         }
-        else if(this.Move.Right && this.Move.Up){
-            Imap.MapY -= this.Main.Speed/1.7;
-            Imap.MapX -= this.Main.Speed/-1.9;
+        else if(this.KCombo[0] == "right" && this.KCombo[1] == "down" && this.KCombo[2] == "XMove"){
+            this.Main.Angle = (11/6)*Math.PI
         }
-        
-        if(this.Move.Down && this.Move.Up == false && this.Move.Left == false && this.Move.Right == false){
-            Imap.MapY += this.Main.Speed/1.3;
+        else if(this.KCombo[0] == "right" && this.KCombo[1] == "nothing" && this.KCombo[2] == "XMove"){
+            this.Main.Angle = 0;
         }
-        if(this.Move.Left && this.Move.Up == false && this.Move.Right == false && this.Move.Down == false ){
-            Imap.MapX -= this.Main.Speed;
+        else if(this.KCombo[0] == "left" && this.KCombo[1] == "up" && this.KCombo[2] == "YMove"){
+            this.Main.Angle = (4/6)*Math.PI
         }
-        
-        if(this.Move.Right && this.Move.Up == false && this.Move.Left == false && this.Move.Down == false){
-            Imap.MapX += this.Main.Speed;
+        else if(this.KCombo[0] == "right" && this.KCombo[1] == "up" && this.KCombo[2] == "YMove"){
+            this.Main.Angle = (2/6)*Math.PI
         }
-        if(this.Move.Up && this.Move.Down == false && this.Move.Left == false && this.Move.Right == false){
-            Imap.MapY -= this.Main.Speed/1.3;
+        else if(this.KCombo[0] == "nothing" && this.KCombo[1] == "up" && this.KCombo[2] == "YMove"){
+            this.Main.Angle = (3/6)*Math.PI
         }
+        else if(this.KCombo[0] == "left" && this.KCombo[1] == "down" && this.KCombo[2] == "YMove"){
+            this.Main.Angle = (8/6)*Math.PI
+        }
+        else if(this.KCombo[0] == "right" && this.KCombo[1] == "down" && this.KCombo[2] == "YMove"){
+            this.Main.Angle = (10/6)*Math.PI
+        }
+        else if(this.KCombo[0] == "nothing" && this.KCombo[1] == "down" && this.KCombo[2] == "YMove"){
+            this.Main.Angle = (9/6)*Math.PI
+        }
+        else{
+            this.Main.Angle = "Nothing"
+        }
+    }
 
-
+    //does the circle stuff
+    CrazyCircleStuff(){
+        if(this.Main.Angle != "Nothing"){
+            Imap.MapX += Math.cos(this.Main.Angle)*this.Main.XSpeed;
+            Imap.MapY += -Math.sin(this.Main.Angle)*this.Main.YSpeed;
+        }
     }
 
     //draws the player
@@ -89,40 +118,30 @@ class Character{
         //sets what row the animaiton should be playing on
         this.DetectAnimRow();
 
-        if(this.Anim.Animate){
-            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*this.Anim.FrameNumber, this.Anim.FrameHeight*this.Anim.FrameRow,
-            this.Anim.FrameWidth, this.Anim.FrameHeight, this.Main.X, this.Main.Y, this.Anim.FrameWidth, this.Anim.FrameHeight);
-        }
-        else{
-            ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*1, this.Anim.FrameHeight*this.Anim.FrameRow,
-                this.Anim.FrameWidth, this.Anim.FrameHeight, this.Main.X, this.Main.Y, this.Anim.FrameWidth, this.Anim.FrameHeight);
-        }
-
+        ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*this.Anim.FrameNumber, this.Anim.FrameHeight*this.Anim.FrameRow,
+        this.Anim.FrameWidth, this.Anim.FrameHeight, this.Main.X, this.Main.Y, this.Anim.FrameWidth, this.Anim.FrameHeight);
 
     }
 
     DetectAnimRow(){
-        if(this.Move.Down){
+        if(this.KCombo[2] == "YMove" && this.KCombo[1] == "down"){
             this.Anim.FrameRow = 0;
             this.Anim.Animate = true;
         }
-        else if(this.Move.Up){
+        else if(this.KCombo[2] == "YMove" && this.KCombo[1] == "up"){
             this.Anim.FrameRow = 3;
             this.Anim.Animate = true;
         }
-        else if(this.Move.Right){
+        else if(this.KCombo[2] == "XMove" && this.KCombo[0] == "right"){
             this.Anim.FrameRow = 2;
             this.Anim.Animate = true;
         }
-        else if(this.Move.Left){
+        else if(this.KCombo[2] == "XMove" && this.KCombo[0] == "left"){
             this.Anim.FrameRow = 1;
             this.Anim.Animate = true;
         }
         else{
             //makes the animation stop||plays idle animation(not really an animation though)
-            this.Anim.Animate = false;
-        }
-        if(this.Move.Down && this.Move.Up || this.Move.Right && this.Move.Left){
             this.Anim.Animate = false;
         }
 
