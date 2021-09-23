@@ -14,8 +14,7 @@ function GameLoop(){
     //runs all of the character functions
     char.Loop()
 
-    //enemy functions
-    drawBoat();
+
 
 
     //update score
@@ -30,7 +29,7 @@ window.onload = new function(){
     InnitEverything();
 
     //starts the gameloop
-    setInterval(GameLoop, 8);
+    setInterval(GameLoop, 10);
     
     //starts the player animation loop||PROBABLY A BETTER WAY TO DO THIS
     setInterval(SetPlayerFrameRow, 150);
@@ -42,11 +41,13 @@ window.onload = new function(){
 //Sets what frame the animation is on
 //runs ever 300ms
 function SetPlayerFrameRow(){
-    if(char.Anim.FrameNumber == char.Anim.HighFrameNumber - 1){
-        char.Anim.FrameNumber = 0;
-    }
-    else{
-        char.Anim.FrameNumber++;
+    if(char.Anim.Animate){
+        if(char.Anim.FrameNumber == char.Anim.HighFrameNumber - 1){
+            char.Anim.FrameNumber = 0;
+        }
+        else{
+            char.Anim.FrameNumber++;
+        }
     }
 }
 
@@ -67,19 +68,51 @@ document.addEventListener("keyup", keyUpHandler, false);
 function keyDownHandler(e){
     //Player keys
     if(e.key == "d" || e.key == "D"){
-        char.Move.Right = true;
+
+        char.KeysDown.D = true;
+
+        if(char.KCombo[0] == "nothing"){
+            char.KCombo[0] = "right"
+            if(char.KCombo[2] == "nothing"){
+                char.KCombo[2] = "XMove"
+            }
+        }
     }
 
     if(e.key == "a" || e.key == "A"){
-        char.Move.Left = true;
+
+        char.KeysDown.A = true;
+
+        if(char.KCombo[0] == "nothing"){
+            char.KCombo[0] = "left"
+            if(char.KCombo[2] == "nothing"){
+                char.KCombo[2] = "XMove"
+            }
+        }
     }
 
     if(e.key == "w" || e.key == "W"){
-        char.Move.Up = true;
+
+        char.KeysDown.W = true;
+
+        if(char.KCombo[1] == "nothing"){
+            char.KCombo[1] = "up"
+            if(char.KCombo[2] == "nothing"){
+                char.KCombo[2] = "YMove"
+            }
+        }
     }
 
     if(e.key == "s" || e.key == "S"){
-        char.Move.Down = true;
+
+        char.KeysDown.S = true;
+
+        if(char.KCombo[1] == "nothing"){
+            char.KCombo[1] = "down"
+            if(char.KCombo[2] == "nothing"){
+                char.KCombo[2] = "YMove"
+            }
+        }
     }
 
 
@@ -89,18 +122,95 @@ function keyDownHandler(e){
 function keyUpHandler(e){
     //Player keys
     if(e.key == "d"){
-        char.Move.Right = false;
+
+        char.KeysDown.D = false;
+
+        if(char.KCombo[0] == "right"){
+            if(char.KeysDown.A){
+                char.KCombo[0] = "left";
+            }
+            else{
+                char.KCombo[0] = "nothing";
+                if(char.KCombo[1] != "nothing"){
+                    char.KCombo[2] = "YMove";
+                }
+                else if(char.KCombo[2] == "XMove"){
+                    char.KCombo[2] = "nothing";
+
+                    char.Anim.FrameNumber = 1;
+                }
+            }
+            
+            
+        }
     }
     if(e.key == "a"){
-        char.Move.Left = false;
+
+        char.KeysDown.A = false;
+
+        if(char.KCombo[0] == "left"){
+            if(char.KeysDown.D){
+                char.KCombo[0] = "right";
+            }
+            else{
+                char.KCombo[0] = "nothing";
+                    
+                if(char.KCombo[1] != "nothing"){
+                    char.KCombo[2] = "YMove";
+                }
+                else if(char.KCombo[2] == "XMove"){
+                    char.KCombo[2] = "nothing";
+                    char.Anim.FrameNumber = 1;
+                }
+            }
+
+        }
     }
 
     if(e.key == "w"){
-        char.Move.Up = false;
+
+        char.KeysDown.W = false;
+
+        if(char.KCombo[1] == "up"){
+            if(char.KeysDown.S){
+                char.KCombo[1] = "down";
+            }
+            else{
+                char.KCombo[1] = "nothing";
+                if(char.KCombo[0] != "nothing"){
+                    char.KCombo[2] = "XMove";
+                }
+                else if(char.KCombo[2] == "YMove"){
+                    char.KCombo[2] = "nothing";
+                    char.Anim.FrameNumber = 1;
+                }
+            }
+
+
+        }
     }
 
     if(e.key == "s"){
-        char.Move.Down = false;
+
+        char.KeysDown.S = false;
+
+        if(char.KCombo[1] == "down"){
+            if(char.KeysDown.W){
+                char.KCombo[1] = "up";
+            }
+            else{
+                char.KCombo[1] = "nothing";
+                
+                if(char.KCombo[0] != "nothing"){
+                    char.KCombo[2] = "XMove";
+                }
+                else if(char.KCombo[2] == "YMove"){
+                    char.KCombo[2] = "nothing";
+                    char.Anim.FrameNumber = 1;
+                }
+            }
+
+        }
     }
 }
 
@@ -121,4 +231,5 @@ function InnitChar(){
 
 
 //#endregion
+
 
