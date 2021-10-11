@@ -244,4 +244,3 @@ document.addEventListener("keyup", keyUpHandler, false);
 // sets game intervals
 setInterval(GameLoop, 10);
 
-
