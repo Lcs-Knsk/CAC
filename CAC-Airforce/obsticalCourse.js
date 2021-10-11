@@ -155,7 +155,7 @@ this.Anim = {
 }
 var animFrame = 1;
 
-this.Anim.PlayerImage.src = "SpritesAndStuff/airplaneSprite.png";
+this.Anim.PlayerImage.src = "CAC-main/SpritesAndStuff/airplaneSprite.png";
 
 //draws character in right frame
 function drawChar(){
