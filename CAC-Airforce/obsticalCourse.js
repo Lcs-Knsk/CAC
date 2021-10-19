@@ -13,7 +13,7 @@ var keySpace = false;
 var playerSpeedY = 0;
 var playerJumping = false;
 var hit = false;
-
+var goal = 25;
 
 
 //GAMELOOP
@@ -84,10 +84,13 @@ function drawEndUI(){
     ctx.globalAlpha = 0.002;
     ctx.fillStyle = "gray";
     ctx.fillRect(0, 0, 1200, 500,);
+    ctx.globalAlpha = 1;
+    ctx.fillRect(311, 250, 533, 146);
     ctx.fillStyle = "black";
     //top line
-    ctx.globalAlpha = 1;
+    
     ctx.fillRect(300, 150-47.25, 11, 300);
+    
     //right line
     ctx.fillRect(300, 150-47.25, 555, 11);
     //bottom line
@@ -102,11 +105,26 @@ function drawEndUI(){
     //Draw the "Hit space to play button"
     ctx.fillStyle = "red";
     ctx.fillRect(311, 161-47.25, 533, 136);
-
+    
     //Draw Plat Button
     ctx.fillStyle = "black"
     ctx.font = "40px Trebuchet MS";
     ctx.fillText("Press space to play again", 350, 240-47.25);
+
+    ctx.font = "40px Trebuchet MS";
+    ctx.fillStyle = "black"
+    ctx.fillText("Score: " + score, 370, 360-47.25);
+    if(score >= goal){
+        ctx.fillStyle = "lightgreen";
+    }
+    else{
+        ctx.fillStyle = "red";
+    }
+    ctx.fillText("Goal: " + goal, 370, 360);
+
+    if(keySpace){
+        location.reload()
+    }
 }
 
 //background basic shapes
@@ -152,11 +170,11 @@ this.Anim = {
     FrameWidth: 64,
     FrameHeight: 60,
 
-    FrameNumber: 0,
+    FrameNumber: 2,
     HighFrameNumber: 3,
     Animate: false
 }
-var animFrame = 1;
+var animFrame = 6;
 
 this.Anim.PlayerImage.src = "airplaneSprite.png";
 
@@ -164,6 +182,15 @@ this.Anim.PlayerImage.src = "airplaneSprite.png";
 function drawChar(){
     ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*animFrame, this.Anim.FrameHeight*2,
                 this.Anim.FrameWidth, this.Anim.FrameHeight, 180, userY, 80, 80);
+    if(userY >= 380){
+        animFrame = 6;
+    }
+    else{
+        animFrame = 0;
+    }
+    if(userY <= 380 && userY >= 340){
+        animFrame = 5;
+    }
 }
 // creates obsticals
 var numObsticals = 5;
@@ -205,10 +232,11 @@ function obsticals(){
     
     for(i = 0; i < numObsticals; i++){
         
-        if(obsticalPosX[i]-80 < 180 && 180 < obsticalPosX[i] + 30){
-            if(userY < obsticalPosY[i] - 30 || userY + 30 > obsticalPosY2[i]){
+        if(obsticalPosX[i]-80 < 180 && 180 < obsticalPosX[i] + 60){
+            if(userY < obsticalPosY[i] - 60 || userY + 60 > obsticalPosY2[i]){
                 console.log("hit");
                 hit = true;
+                keySpace = false;
             }
         }
     }
@@ -247,6 +275,9 @@ var score = 0;
 function keepScore(){
     score = Math.round((time-90));
     console.log(score);
+    ctx.fillStyle = "white"
+    ctx.font = "40px Trebuchet MS";
+    ctx.fillText("Score: "+ score, 1000, 50);
 }
 
 
@@ -269,14 +300,34 @@ function updatePlayer(){
 
 
 function keyDownHandler(e){
-    if (e.key = " "){
+    if (e.key === ' ' || e.key === 'Spacebar'){
         keySpace = true;
         
     }
 }
 function keyUpHandler(e){
-    if (e.key = " "){
+    if (e.key === ' ' || e.key === 'Spacebar'){
         keySpace = false;
+    }
+}
+
+function resetGlobalVariables(){
+    alive = true;
+    speed = 1;
+    userY = 387;
+    /*user jumping*/
+    worldGravity = 0.9;
+    keySpace = false;
+    playerSpeedY = 0;
+    playerJumping = false;
+    hit = false;
+
+
+    cloudPosX = [];
+    cloudPosY = [];
+    for (i = 0; i < numClouds; i++){
+        cloudPosX[i] = Math.round(200*i + (Math.random() * (1000*i - 200*i)));
+        cloudPosY[i] = 70;
     }
 }
 
