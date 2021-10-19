@@ -16,7 +16,7 @@ var hit = false;
 
 
 
-// FUNCTIONS \\
+//GAMELOOP
 function GameLoop(){
     if(hit == false){
         ctx.clearRect(0, 0, 500, 1200);
@@ -25,20 +25,20 @@ function GameLoop(){
         updatePlayer();
         obsticals();
         speedControl();
+        keepScore();
     }
     else{
-        ctx.fillStyle = "#fc0303"
-        ctx.font = "80px Arial";
-        ctx.fillText("YOU SUCK", 300, userY+30);
+        drawEndUI();
     }
 }
+
+//---------------------DRAWING FUNCTIONS----------------------\\
 // function to draw sky
 function drawSky(){
     // makes the sky's gradiant
     var grd = ctx.createLinearGradient(0, 0, 0, 200);
     grd.addColorStop(0, "#9be2fe");
     grd.addColorStop(1, "#67d1fb");
-
     // Fill with gradient
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, 1200, 500);
@@ -69,7 +69,7 @@ function drawClouds(){
     for (i = 0; i < numClouds; i++){
         ctx.fillRect(cloudPosX[i], cloudPosY[i], 90, 30);
         if(cloudPosX[i] > -100){
-            cloudPosX[i] = cloudPosX[i] - speed*0.5;  
+            cloudPosX[i] = cloudPosX[i] - speed*0.24;  
         }
         else {
             cloudPosX[i] = Math.round(1250 + (Math.random() * (1800 - 1250)));;
@@ -79,31 +79,34 @@ function drawClouds(){
     }
 }
 
-var numHills = 7;
-var hillPosX = [];
-var hillPosY = [];
-var hillRadii = [];
-for (i = 0; i < numHills; i++){
-    hillPosX[i] = Math.round(20*i + (Math.random() * (2000 - 20)));
-    hillRadii[i] = Math.round(80*i + (Math.random() * (200 - 80)));
-}
-var time = 90;
-function speedControl(){
-    time = time + 0.01;   
-    
-    if(time >= 10 && time <= 25){
-        speed = 3;
-    }
-    else if(time > 25 && time <= 50){
-        speed = 4;
-    }
-    else if(time > 50 && time <= 100){
-        speed = 5;
-    }
-    else if(time > 100){
-        speed = 7;
-    }
+function drawEndUI(){
+    //reset screen
+    ctx.globalAlpha = 0.002;
+    ctx.fillStyle = "gray";
+    ctx.fillRect(0, 0, 1200, 500,);
+    ctx.fillStyle = "black";
+    //top line
+    ctx.globalAlpha = 1;
+    ctx.fillRect(300, 150-47.25, 11, 300);
+    //right line
+    ctx.fillRect(300, 150-47.25, 555, 11);
+    //bottom line
+    ctx.fillRect(300, 439-47.25, 555, 11);
+    //right line
+    ctx.fillRect(844, 150-47.25, 11, 300);
+    //middle line
+    ctx.fillRect(300, 297-47.25, 555, 6);
+    //Bottom middle line
+    ctx.fillRect(573, 303-47.25, 6, 147);
 
+    //Draw the "Hit space to play button"
+    ctx.fillStyle = "red";
+    ctx.fillRect(311, 161-47.25, 533, 136);
+
+    //Draw Plat Button
+    ctx.fillStyle = "black"
+    ctx.font = "40px Trebuchet MS";
+    ctx.fillText("Press space to play again", 350, 240-47.25);
 }
 
 //background basic shapes
@@ -167,11 +170,17 @@ var numObsticals = 5;
 var obsticalPosX = [];
 var obsticalPosY = [];
 var obsticalPosY2 = [];
-for (i = 0; i < numObsticals; i++){
-    obsticalPosX[i] = Math.round((900+ i*200) + (Math.random() * (1000 - 900)));
-    obsticalPosY[i] = Math.round(100 + (Math.random() * (300 - 100)));
-    obsticalPosY2[i] = obsticalPosY[i] + 130;
-    console.log(obsticalPosY2[i]);
+
+obsticalPosX[0] = Math.round(900 + (Math.random() * (1000 - 900)));
+
+for(i = 0; i < numObsticals; i++){
+   obsticalPosY[i] = Math.round(100 + (Math.random() * (300 - 100))); 
+   obsticalPosY2[i] = obsticalPosY[i] + 130;
+}
+
+for (i = 1; i < numObsticals; i++){
+    obsticalPosX[i] = obsticalPosX[i-1]+(200+(Math.round(100+(Math.random()*125-100))))
+    
 }
 
 
@@ -202,13 +211,45 @@ function obsticals(){
                 hit = true;
             }
         }
-            
-            
-            
     }
-    
-    
 }
+// HILL VARIABLES
+var numHills = 7;
+var hillPosX = [];
+var hillPosY = [];
+var hillRadii = [];
+for (i = 0; i < numHills; i++){
+    hillPosX[i] = Math.round(20*i + (Math.random() * (2000 - 20)));
+    hillRadii[i] = Math.round(80*i + (Math.random() * (200 - 80)));
+}
+
+//-----------PLAYER FUNCTIONS-------------\\
+var time = 90;
+
+function speedControl(){
+    time = time + 0.01;   
+    
+    if(time >= 10 && time <= 25){
+        speed = 3;
+    }
+    else if(time > 25 && time <= 50){
+        speed = 4;
+    }
+    else if(time > 50 && time <= 100){
+        speed = 5;
+    }
+    else if(time > 100){
+        speed = 7;
+    }
+}
+
+var score = 0;
+function keepScore(){
+    score = Math.round((time-90));
+    console.log(score);
+}
+
+
 
 function updatePlayer(){
     if(keySpace == true && userY > -10){
@@ -243,4 +284,6 @@ document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 // sets game intervals
 setInterval(GameLoop, 10);
+
+
 
