@@ -102,11 +102,6 @@ function GameLoop(){
 
     //false = GamePlaying
     if(GamePlaying){
-        //reset screen
-        ctx.fillStyle = "rgb(0, 119, 190)"
-        ctx.fillRect(0, 0, 1000, 600);
-
-
         ctx.drawImage(BackGroundImg, BackGroundBorder.X - ScreenPos.X, BackGroundBorder.Y + ScreenPos.Y, 6400, 4800)
 
         ctx.strokeRect( OutSideBorder.X - ScreenPos.X, OutSideBorder.Y + ScreenPos.Y, 2000, 1200);
@@ -160,11 +155,15 @@ function CollectingFunction(){
 }
 
 function ShowEndUI(){
-    //Draw End screen
+    ctx.drawImage(BackGroundImg, BackGroundBorder.X - ScreenPos.X, BackGroundBorder.Y + ScreenPos.Y, 6400, 4800)
 
-    //reset screen
-    ctx.fillStyle = "rgb(0, 119, 190)"
-    ctx.fillRect(0, 0, 1000, 600);
+    ctx.strokeRect( OutSideBorder.X - ScreenPos.X, OutSideBorder.Y + ScreenPos.Y, 2000, 1200);
+
+    //Draw End screen
+    ctx.GlobalAlpha = 0.002;
+    ctx.fillStyle = "rgb(255, 255, 255, 0.3)"
+    ctx.fillRect(0, 0, 1000, 600,);
+
 
     //Blue Back Ground with black outsides
     ctx.fillStyle = "rgb(113, 121, 126)";
