@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+                border: 0;
+                overflow: hidden; /*  Disable scrollbars */
+                display: block;  /* No floating content on sides */
+            }
+            #gameScreen{
+                margin: auto;
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="CanvasID" >
+            <canvas id="gameScreen" width="1000" height="600" ></canvas>
+        </div>
+
+        <script src="Bluezy.js"></script>
+        <script src="Char_Bullet.js"></script>
+        <script src="Char.js"></script>
+        <script src="targets.js"></script>
+        <script src="main.js"></script>
+
+    </body>
+</html>
