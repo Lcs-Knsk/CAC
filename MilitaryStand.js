@@ -107,22 +107,22 @@ class MilitaryStandThing{
 
 
     CheckIfHitPin(){
-        if(this.MouseHit(705, 160, 180, 120, "Navy") && PinsCollected.Navy == "false"){
+        if(this.MouseHit(705, 160, 180, 120, "Navy") && PinsCollected.Navy == "false" && this.InMenu){
             newWin = window.open("CAC-Navy/NavyIndex.html","_self")
         }
-        if(this.MouseHit(410, 160, 180, 120, "Marines") && PinsCollected.Marines == "false"){
+        if(this.MouseHit(410, 160, 180, 120, "Marines") && PinsCollected.Marines == "false" && this.InMenu){
             newWin = window.open("CAC-Marines/index.htm","_self")
         }
-        if(this.MouseHit(115, 160, 180, 120, "Coast Guard") && PinsCollected.CoastGuard == "false"){
+        if(this.MouseHit(115, 160, 180, 120, "Coast Guard") && PinsCollected.CoastGuard == "false" && this.InMenu){
             newWin = window.open("CAC-CoastG/index.html","_self")
         }
-        if(this.MouseHit(705, 340, 180, 120, "Army") && PinsCollected.Army == "false"){
+        if(this.MouseHit(705, 340, 180, 120, "Army") && PinsCollected.Army == "false" && this.InMenu){
             //newWin = window.open("","_self")
         }
-        if(this.MouseHit(410, 340, 180, 120, "Air force") && PinsCollected.Airforce == "false"){
+        if(this.MouseHit(410, 340, 180, 120, "Air force") && PinsCollected.Airforce == "false" && this.InMenu){
             newWin = window.open("CAC-Airforce/obsticalCourse.html","_self")
         }
-        if(this.MouseHit(115, 340, 180, 120, "Space Force") && PinsCollected.Spaceforce == "false"){
+        if(this.MouseHit(115, 340, 180, 120, "Space Force") && PinsCollected.Spaceforce == "false" && this.InMenu){
             newWin = window.open("CAC-Spaceforce/index.html", "_self");
             console.log('hit')
         }
