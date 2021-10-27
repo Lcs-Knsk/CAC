@@ -105,6 +105,11 @@ function mouseDownHandler(){
 
 //turns on all of the movement for the player
 function keyDownHandler(e){
+    if(e.key == "Escape" && MenuStand.InMenu){
+        console.log("Hit")
+        MenuStand.InMenu = false;
+    }
+
     //Player keys
     if(e.key == "d" || e.key == "D"){
         if(!MenuStand.InMenu){
@@ -138,6 +143,7 @@ function keyDownHandler(e){
             MenuStand.InMenu = true;
         }
     }
+
 
 }
 

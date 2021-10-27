@@ -13,6 +13,7 @@ var WhichBoat = 0;
 var GamePlaying = true;
 
 var AllDead = true;
+var NewThing = false;
 
 var ConsoleLog = false;
 
@@ -117,8 +118,19 @@ function GameLoop(){
 
 
     }
+    else{
+        for(var i = 0; i < mines.length; i++){
+            mines[i].Draw();
+        }  
+    }
 
     //Reset
+    NewThing = false;
+    for(var i = 0; i < char.length; i++){
+        if(char[i].Alive){
+            NewThing = true;
+        }
+    }
 
     AllDead = true;
     for(var i = 0; i < enem.length; i++){
@@ -128,7 +140,7 @@ function GameLoop(){
     }
 
     //Draw timer
-    if(!AllDead){
+    if(!AllDead || NewThing){
         ctx.font = "30px Arial";
         ctx.fillStyle = "black";
         ctx.fillText(Timer.toPrecision(4), 925, 40);
@@ -137,13 +149,16 @@ function GameLoop(){
 
     //write press space to restart
     //true = AllDead usually
-    if(AllDead){
+    if(AllDead || !NewThing){
+        if(!NewThing){
+            Timer = 100;
+        }
         DrawEndScreen();
         GamePlaying = false;
 
     }
 
-    if(!AllDead){
+    if(!AllDead && NewThing){
         Timer += .01;
     }
 
@@ -180,10 +195,6 @@ function CheckMineCollision(){
 
 function DrawEndScreen(){
     //Draw End screen
-
-    //reset screen
-    ctx.fillStyle = "rgb(0, 119, 190)"
-    ctx.fillRect(0, 0, 1000, 600);
 
     //Blue Back Ground with black outsides
     ctx.fillStyle = "rgb(51, 87, 255)";
@@ -419,7 +430,7 @@ function keyDownHandler(e){
     }
 
     if(e.key == " " || e.key == ""){
-        if(AllDead){
+        if(AllDead || !NewThing){
             Reset();
         }
         else{
@@ -433,9 +444,11 @@ function keyDownHandler(e){
     }
 
     
-    if(e.keyCode == "27" &&  AllDead){
-        console.log("hit back")
-        history.back();
+    if(e.key == "Escape"){
+        if(AllDead || !NewThing){
+            console.log("hit back")
+            history.go(-1);
+        }
     }   
 }
 

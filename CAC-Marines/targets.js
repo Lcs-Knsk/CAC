@@ -55,7 +55,7 @@ class TargetThings{
     }
 
     UpdatePosition(){
-        var testNumber = Math.floor(Math.random() * 60);
+        var testNumber = Math.floor(Math.random() * 100);
 
         if(testNumber == 1){
             if(this.Direction == "up"){

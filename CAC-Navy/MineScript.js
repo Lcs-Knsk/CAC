@@ -36,7 +36,7 @@ class MineField{
         
         if(!this.Blown){
             //Draw
-            this.Draw(this.Img)
+            this.Draw()
         }
         else{
             this.PlayAnimation();
@@ -44,10 +44,10 @@ class MineField{
 
     }
 
-    Draw(Image){
+    Draw(){
         ctx.translate(this.Main.X, this.Main.Y);
         ctx.rotate(-this.Angle*Math.PI/180);
-        ctx.drawImage(Image, -this.Main.Width / 2, -this.Main.Height / 2, this.Main.Width, this.Main.Height);
+        ctx.drawImage(this.Img, -this.Main.Width / 2, -this.Main.Height / 2, this.Main.Width, this.Main.Height);
         ctx.rotate(this.Angle*Math.PI/180);
         ctx.translate(-this.Main.X, -this.Main.Y);
     }

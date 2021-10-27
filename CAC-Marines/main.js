@@ -129,7 +129,7 @@ function ShowEndUI(){
     ctx.fillStyle = "black"
     ctx.fillText("Score: " + Score, 275, 360-47.25);
 
-    if(Score > 520){
+    if(Score > 600){
         sessionStorage.setItem("Marines", true)
         AchievedCgPin = true;
         if(FirstTimeAchieved) Achieved.play();
@@ -209,9 +209,9 @@ function keyDownHandler(e){
         ResetGame();
     }
 
-    if(e.keyCode == "27" && AllGone){
+    if(e.key == "Escape" && AllGone){
         console.log("hit back")
-        history.back();
+        history.go(-1);
     }   
 
 }

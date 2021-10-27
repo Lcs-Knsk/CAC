@@ -2,6 +2,7 @@
 const canvas = document.getElementById('GameScreen');
 const ctx = canvas.getContext('2d');
 
+
 // USER VARIABLES \\
 /* user state */
 var alive = true;
@@ -116,6 +117,7 @@ function drawEndUI(){
     ctx.fillText("Score: " + score, 370, 360-47.25);
     if(score >= goal){
         ctx.fillStyle = "lightgreen";
+        sessionStorage.setItem("Airforce", true);
     }
     else{
         ctx.fillStyle = "red";
@@ -304,6 +306,10 @@ function keyDownHandler(e){
         keySpace = true;
         
     }
+    if(e.key == "Escape" && hit){
+        console.log("hit")
+        history.go(-1);
+    }
 }
 function keyUpHandler(e){
     if (e.key === ' ' || e.key === 'Spacebar'){
@@ -321,6 +327,7 @@ function resetGlobalVariables(){
     playerSpeedY = 0;
     playerJumping = false;
     hit = false;
+    
 
 
     cloudPosX = [];
