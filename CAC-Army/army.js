@@ -1,6 +1,8 @@
 const canvas = document.getElementById('GameScreen');
 const ctx = canvas.getContext('2d');
 
+
+//---------VARIABLES-----------\\
 var userY = 100;
 var userX = 200;
 var userWidth = 69;
@@ -14,9 +16,10 @@ var leftMomentum = 0.5;
 var isAlive = true;
 var goal = 25;
 var score = 0;
-
+//init variables
 initThings();
 
+//gameloop function
 function GameLoop(){
 	ctx.clearRect(0, 0, 800, 600);
 	collisionDetection();
@@ -34,7 +37,7 @@ function GameLoop(){
     ctx.font = "40px Trebuchet MS";
     ctx.fillText("Score: "+ score, 610, 50);
 }
-
+//draw functions
 function drawSky(){
     // makes the sky's gradiant
     var grd = ctx.createLinearGradient(0, 0, 0, 200);
@@ -49,14 +52,14 @@ function drawUser(){
 	ctx.fillStyle = "red";
 	ctx.fillRect(userX, userY, userWidth, userHeight);
 }
-
+//move player
 function updatePlayer(){
 	if(isAlive){
 		userX = userX - leftMomentum + rightMomentum;	
 	}
 	
 }
-
+//key handlers
 function keyDownHandler(e){
     if (e.keyCode == '37'){
         keyLeft = true;
@@ -77,7 +80,7 @@ function keyUpHandler(e){
     	
     }
 }
-
+//horizontal movement control
 function speedController(){
 	if(keyRight && keyLeft == false){
 		if(rightMomentum <= speedMax){
@@ -107,10 +110,10 @@ function speedController(){
 		else{
 			leftMomentum = 0.5;
 		}
-		
 	}	
 }
 
+//player sprite variables
 this.Anim = {
     FrameRow: 0,
     PlayerImage: new Image,
@@ -125,7 +128,7 @@ this.Anim = {
 }
 var animFrame = 1;
 
-
+//animate character
 //draws character in right frame
 function drawChar(){
 	if(isAlive){
@@ -147,7 +150,7 @@ function drawChar(){
     
 }
 
-//cloud variables
+//cloud & bird variables
 var numClouds = 10;
 var cloudPosX = [];
 var cloudPosY = [];
@@ -256,6 +259,7 @@ function collisionDetection(){
 	}
 }
 
+//end screen
 function drawEndUI(){
     //reset screen
 
