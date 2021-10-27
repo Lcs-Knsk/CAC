@@ -3,7 +3,8 @@ const ctx = canvas.getContext('2d');
 
 var userY = 100;
 var userX = 200;
-var userWidth = 70;
+var userWidth = 69;
+var userHeight = 164;
 var keyLeft = false;
 var keyRight = false;
 var speedMax = 3;
@@ -11,6 +12,8 @@ var speed = 0.2;
 var rightMomentum = 0.5;
 var leftMomentum = 0.5;
 var isAlive = true;
+var goal = 25;
+var score = 0;
 
 initThings();
 
@@ -27,6 +30,9 @@ function GameLoop(){
 	if(isAlive == false){
 		drawEndUI();
 	}
+	ctx.fillStyle = "white"
+    ctx.font = "40px Trebuchet MS";
+    ctx.fillText("Score: "+ score, 610, 50);
 }
 
 function drawSky(){
@@ -41,7 +47,7 @@ function drawSky(){
 
 function drawUser(){
 	ctx.fillStyle = "red";
-	ctx.fillRect(userX, userY, userWidth, userWidth);
+	ctx.fillRect(userX, userY, userWidth, userHeight);
 }
 
 function updatePlayer(){
@@ -122,19 +128,22 @@ var animFrame = 1;
 
 //draws character in right frame
 function drawChar(){
-	if(Math.abs(leftMomentum - rightMomentum)<=0.5){
-		this.Anim.PlayerImage.src = "Graphics/paraSprite3.png";
-		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
+	if(isAlive){
+		if(Math.abs(leftMomentum - rightMomentum)<=0.5){
+			this.Anim.PlayerImage.src = "Graphics/paraSprite3.png";
+			ctx.drawImage(this.Anim.PlayerImage, userX, userY);
+		}
+		
+	   	else if((leftMomentum - rightMomentum) > 0.5){
+	   		this.Anim.PlayerImage.src = "Graphics/paraSprite2.png";
+	   		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
+	   	}
+	   	else if((rightMomentum - leftMomentum) > 0.5){
+	   		this.Anim.PlayerImage.src = "Graphics/paraSprite1.png";
+	   		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
+	   	}	
 	}
 	
-   	else if((leftMomentum - rightMomentum) > 0.5){
-   		this.Anim.PlayerImage.src = "Graphics/paraSprite2.png";
-   		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
-   	}
-   	else if((rightMomentum - leftMomentum) > 0.5){
-   		this.Anim.PlayerImage.src = "Graphics/paraSprite1.png";
-   		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
-   	}
     
 }
 
@@ -142,7 +151,7 @@ function drawChar(){
 var numClouds = 10;
 var cloudPosX = [];
 var cloudPosY = [];
-var numBirds = 25;
+var numBirds = 15;
 var birdPosX = [];
 var birdPosY = [];
 var birdDirection = [];
@@ -237,58 +246,71 @@ function updateBird(){
 
 function collisionDetection(){
 	for(i = 0; i < numBirds; i++){
-		if(userX + 20 >= birdPosX[i] && userX + 80 <= birdPosX[i] + this.Bird.FrameWidth 
-			&& birdPosY[i] <= userY + 200 && birdPosY[i] >= 290){
-			console.log("you died");
-			isAlive = false;
-			
+		if((userX >= birdPosX[i] && userX <= birdPosX[i]  + this.Bird.FrameWidth) || 
+			(userX + userWidth >= birdPosX[i] && userX + userWidth <= birdPosX[i]  + this.Bird.FrameWidth)){
+			if(birdPosY[i] <= userY + 130 && birdPosY[i] >= userY - 30){
+				console.log("you died");
+				isAlive = false;
+			}		
 		}
 	}
 }
 
 function drawEndUI(){
     //reset screen
-    ctx.globalAlpha = 0.002;
-    ctx.fillStyle = "gray";
-    ctx.fillRect(0, 0, 1200, 500,);
-    ctx.globalAlpha = 1;
-    ctx.fillRect(131, 250, 533, 146);
-    ctx.fillStyle = "black";
-    //top line
-    
-    ctx.fillRect(120, 150-47.25, 11, 300);
-    
-    //right line
-    ctx.fillRect(120, 150-47.25, 555, 11);
-    //bottom line
-    ctx.fillRect(120, 439-47.25, 555, 11);
-    //right line
-    ctx.fillRect(664, 150-47.25, 11, 300);
-    //middle line
-    ctx.fillRect(120, 297-47.25, 555, 6);
-    //Bottom middle line
-    ctx.fillRect(393, 303-47.25, 6, 147);
 
-    //Draw the "Hit space to play button"
-    ctx.fillStyle = "red";
-    ctx.fillRect(131, 161-47.25, 533, 136);
-    
-    //Draw Plat Button
-    ctx.fillStyle = "black"
-    ctx.font = "40px Trebuchet MS";
-    ctx.fillText("Press space to play again", 170, 240-47.25);
+   	let img = document.createElement("crash");
+   	let crash = new Image();
+   	crash.src = "Graphics/paraCrash.png";
 
-    ctx.font = "40px Trebuchet MS";
-    ctx.fillStyle = "black"
-    ctx.fillText("Score: " + "score", 190, 360-47.25);
-    
-    ctx.fillText("Goal: " + "goal", 190, 360);
+   	ctx.drawImage(crash, 267, 0, 40, 100, userX, userY, 60, 160);
+   	userY += speed * 10;
+    if(userY >= 800){
+	    ctx.globalAlpha = 0.002;
+	    ctx.fillStyle = "gray";
+	    ctx.fillRect(0, 0, 1200, 500,);
+	    ctx.globalAlpha = 1;
+	    ctx.fillRect(131, 250, 533, 146);
+	    ctx.fillStyle = "black";
+	    //top line
+	    
+	    ctx.fillRect(120, 150-47.25, 11, 300);
+	    
+	    //right line
+	    ctx.fillRect(120, 150-47.25, 555, 11);
+	    //bottom line
+	    ctx.fillRect(120, 439-47.25, 555, 11);
+	    //right line
+	    ctx.fillRect(664, 150-47.25, 11, 300);
+	    //middle line
+	    ctx.fillRect(120, 297-47.25, 555, 6);
+	    //Bottom middle line
+	    ctx.fillRect(393, 303-47.25, 6, 147);
 
-    
+	    //Draw the "Hit space to play button"
+	    ctx.fillStyle = "red";
+	    ctx.fillRect(131, 161-47.25, 533, 136);
+	    
+	    //Draw Plat Button
+	    ctx.fillStyle = "black"
+	    ctx.font = "40px Trebuchet MS";
+	    ctx.fillText("Press space to play again", 170, 240-47.25);
+
+	    ctx.font = "40px Trebuchet MS";
+	    ctx.fillStyle = "black"
+	    ctx.fillText("Score: " + score, 160, 360-47.25);
+	    
+	    ctx.fillText("Goal: " + goal, 160, 360);
+    }
+}
+
+function scoreStuff(){
+	score++;
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 // sets game intervals
 setInterval(GameLoop, 10);
-setInterval(updateBird, 100);
+setInterval(updateBird, 100); 
+setInterval(scoreStuff, 1000);
