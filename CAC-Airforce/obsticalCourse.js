@@ -2,6 +2,10 @@
 const canvas = document.getElementById('GameScreen');
 const ctx = canvas.getContext('2d');
 
+var PinImg = new Image();
+PinImg.src = "AirForcePin.png";
+var NotPinImg = new Image();
+NotPinImg.src = "NotGottenPin.png";
 
 // USER VARIABLES \\
 /* user state */
@@ -116,11 +120,17 @@ function drawEndUI(){
     ctx.fillStyle = "black"
     ctx.fillText("Score: " + score, 370, 360-47.25);
     if(score >= goal){
-        ctx.fillStyle = "lightgreen";
         sessionStorage.setItem("Airforce", true);
+        ctx.fillStyle = "lightgreen";
     }
     else{
         ctx.fillStyle = "red";
+    }
+    if(sessionStorage.getItem("Airforce") == "true"){
+        ctx.drawImage(PinImg, 620, 265, 180, 120);
+    }
+    else{
+        ctx.drawImage(NotPinImg, 620, 265, 180, 120);
     }
     ctx.fillText("Goal: " + goal, 370, 360);
 
