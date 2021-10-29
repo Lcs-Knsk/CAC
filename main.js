@@ -72,6 +72,13 @@ function ShowBackground(){
 
     ctx.fillStyle = "#875514";
     ctx.fillRect(0, 570, 1200, 150);
+    
+    var grd = ctx.createLinearGradient(0, 0, 0, 200);
+    grd.addColorStop(0, "#54c3ff");
+    grd.addColorStop(1, "#2c9edb");
+    // Fill with gradient
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, 1200, 550);
 }
 
 function SetPlayerFrameRow(){
@@ -90,7 +97,7 @@ window.onload = new function(){
     char = new Character(30, 500)
     MenuStand = new MilitaryStandThing();
     setInterval(GameLoop, 10);
-    setInterval(SetPlayerFrameRow, 300)
+    setInterval(SetPlayerFrameRow, 150)
     
 }
 
