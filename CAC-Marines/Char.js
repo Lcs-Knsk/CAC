@@ -104,7 +104,7 @@ class Character{
             ctx.drawImage(this.Ammo3, 410, 540, 27, 33);
         }   
 
-        if(this.CanShootTimer == 66 || this.CanShootTimer == 33 || this.CanShootTimer == 1){
+        if(this.CanShootTimer == 1){
             Reload1.play();
         }
 
