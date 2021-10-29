@@ -7,6 +7,13 @@ PinImg.src = "AirForcePin.png";
 var NotPinImg = new Image();
 NotPinImg.src = "NotGottenPin.png";
 
+var PlayOnTouch = false;
+
+if(sessionStorage.getItem("AirforceSound") != "true"){
+    sessionStorage.setItem("AirforceSound", true);
+    PlayOnTouch = true;
+}
+
 // USER VARIABLES \\
 /* user state */
 var alive = true;
@@ -18,8 +25,65 @@ var keySpace = false;
 var playerSpeedY = 0;
 var playerJumping = false;
 var hit = false;
-var goal = 25;
+var goal = 40;
 
+
+function Reset(){
+    // USER VARIABLES \\
+    /* user state */
+    alive = true;
+    speed = 1;
+    userY = 387;
+    /*user jumping*/
+    worldGravity = 0.9;
+    keySpace = false;
+    playerSpeedY = 0;
+    playerJumping = false;
+    hit = false;
+    goal = 40;
+
+    numClouds = 5;
+    cloudPosX = [];
+    cloudPosY = [];
+    for (i = 0; i < numClouds; i++){
+        cloudPosX[i] = Math.round(200*i + (Math.random() * (1000*i - 200*i)));
+        cloudPosY[i] = 70;
+    }
+
+    animFrame = 6;
+
+    numObsticals = 5;
+    obsticalPosX = [];
+    obsticalPosY = [];
+    obsticalPosY2 = [];
+
+    obsticalPosX[0] = Math.round(900 + (Math.random() * (1000 - 900)));
+
+    for(i = 0; i < numObsticals; i++){
+    obsticalPosY[i] = Math.round(100 + (Math.random() * (300 - 100))); 
+    obsticalPosY2[i] = obsticalPosY[i] + 130;
+    }
+
+    for (i = 1; i < numObsticals; i++){
+        obsticalPosX[i] = obsticalPosX[i-1]+(200+(Math.round(100+(Math.random()*125-100))))
+        
+    }
+
+    numHills = 7;
+    hillPosX = [];
+    hillPosY = [];
+    hillRadii = [];
+    for (i = 0; i < numHills; i++){
+        hillPosX[i] = Math.round(20*i + (Math.random() * (2000 - 20)));
+        hillRadii[i] = Math.round(80*i + (Math.random() * (200 - 80)));
+    }
+
+    //-----------PLAYER FUNCTIONS-------------\\
+    time = 90;
+    score = 0;
+
+
+}
 
 //GAMELOOP
 function GameLoop(){
@@ -90,35 +154,44 @@ function drawEndUI(){
     ctx.fillStyle = "gray";
     ctx.fillRect(0, 0, 1200, 500,);
     ctx.globalAlpha = 1;
-    ctx.fillRect(311, 250, 533, 146);
+    ctx.fillRect(311, 250-50, 533, 146);
     ctx.fillStyle = "black";
     //top line
     
-    ctx.fillRect(300, 150-47.25, 11, 300);
+    ctx.fillRect(300, 150-47.25-50, 11, 300);
     
     //right line
-    ctx.fillRect(300, 150-47.25, 555, 11);
+    ctx.fillRect(300, 150-47.25-50, 555, 11);
     //bottom line
-    ctx.fillRect(300, 439-47.25, 555, 11);
+    ctx.fillRect(300, 439-47.25-50, 555, 11);
     //right line
-    ctx.fillRect(844, 150-47.25, 11, 300);
+    ctx.fillRect(844, 150-47.25-50, 11, 300);
     //middle line
-    ctx.fillRect(300, 297-47.25, 555, 6);
+    ctx.fillRect(300, 297-47.25-50, 555, 6);
     //Bottom middle line
-    ctx.fillRect(573, 303-47.25, 6, 147);
+    ctx.fillRect(573, 303-47.25-50, 6, 147);
 
     //Draw the "Hit space to play button"
     ctx.fillStyle = "red";
-    ctx.fillRect(311, 161-47.25, 533, 136);
+    ctx.fillRect(311, 161-47.25-50, 533, 136);
+
+    //Show "esc to map"
+    ctx.fillStyle = "black";
+    ctx.lineWidth = 11;
+    ctx.strokeRect(227.5+78, 444.5-47.25-50, 544, 94.5);
     
+    ctx.fillText("Esc to go back to map", 310+78, 506-47.25-50)
+    
+    ////////////////////////
+
     //Draw Plat Button
     ctx.fillStyle = "black"
     ctx.font = "40px Trebuchet MS";
-    ctx.fillText("Press space to play again", 350, 240-47.25);
+    ctx.fillText("Press space to play again", 350, 240-47.25-50);
 
     ctx.font = "40px Trebuchet MS";
     ctx.fillStyle = "black"
-    ctx.fillText("Score: " + score, 370, 360-47.25);
+    ctx.fillText("Score: " + score, 370, 360-47.25-50);
     if(score >= goal){
         sessionStorage.setItem("Airforce", true);
         ctx.fillStyle = "lightgreen";
@@ -127,15 +200,15 @@ function drawEndUI(){
         ctx.fillStyle = "red";
     }
     if(sessionStorage.getItem("Airforce") == "true"){
-        ctx.drawImage(PinImg, 620, 265, 180, 120);
+        ctx.drawImage(PinImg, 620, 265-50, 180, 120);
     }
     else{
-        ctx.drawImage(NotPinImg, 620, 265, 180, 120);
+        ctx.drawImage(NotPinImg, 620, 265-50, 180, 120);
     }
-    ctx.fillText("Goal: " + goal, 370, 360);
+    ctx.fillText("Goal: " + goal, 370, 360-50);
 
     if(keySpace){
-        location.reload()
+        Reset();
     }
 }
 
@@ -314,7 +387,11 @@ function updatePlayer(){
 function keyDownHandler(e){
     if (e.key === ' ' || e.key === 'Spacebar'){
         keySpace = true;
-        
+        if(PlayOnTouch){
+            PlayOnTouch = false;
+            var NewAud = new Audio("Air Force.wav");
+            NewAud.play();
+        }
     }
     if(e.key == "Escape" && hit){
         console.log("hit")

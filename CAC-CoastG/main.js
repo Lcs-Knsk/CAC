@@ -1,6 +1,13 @@
 canvas = document.getElementById("gameScreen");
 ctx = canvas.getContext("2d");
 
+var PlayOnTouch = false;
+
+if(sessionStorage.getItem("CoastGuardSound") != "true"){
+    sessionStorage.setItem("CoastGuardSound", true);
+    PlayOnTouch = true;
+}
+
 //Checks if the player has achieved the cg pin
 var AchievedCgPin = sessionStorage.getItem("Coast Guard")
 
@@ -13,6 +20,7 @@ var AmountLeft = 25;
 var touchingOne
 
 var Timer = 0;
+var Goal = 920;
 
 var CoastGuardPin = new Image();
 CoastGuardPin.src = "Art/GottenPin.png";
@@ -198,7 +206,7 @@ function ShowEndUI(){
     var ScoreAmount = 1000 - Timer.toPrecision(2);
     ctx.fillText("Score: " + ScoreAmount, 275, 360-47.25);
 
-    if(ScoreAmount > 900){
+    if(ScoreAmount > Goal){
         AchievedCgPin = true;
         if(FirstTimeAchieved){
             Achieved.play();
@@ -209,7 +217,7 @@ function ShowEndUI(){
     }
 
     //Show score goal
-    ctx.fillText("Goal: 900", 275, 410-47.25);
+    ctx.fillText("Goal: " + Goal, 275, 410-47.25);
 
     //Show "esc to map"
     ctx.fillStyle = "black";
@@ -339,6 +347,13 @@ function CheckIfOutsideBoundaries(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy){
 
 
 function keyDownHandler(e){
+    if(PlayOnTouch){
+        var NewAud = new Audio("CoastGuard.wav");
+        NewAud.play();
+        PlayOnTouch = false;
+        console.log("Played")
+    }
+
     //Player keys
     if(e.key == "d" || e.key == "D"){
         char.KeysDown.D = true;

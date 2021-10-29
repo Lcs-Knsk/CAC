@@ -4,6 +4,8 @@ const ctx = canvas.getContext('2d');
 var char;
 var MenuStand;
 
+var PlayIntroOnTouch = false;
+
 if(sessionStorage.getItem("Coast Guard") != "true"){
     sessionStorage.setItem("Coast Guard", false);
 }
@@ -21,6 +23,11 @@ if(sessionStorage.getItem("Army") != "true"){
 }
 if(sessionStorage.getItem("Spaceforce") != "true"){
     sessionStorage.setItem("Spaceforce", false);
+}
+
+if(sessionStorage.getItem("FirstIntro") != "true"){
+    sessionStorage.setItem("FirstIntro", true);
+    PlayIntroOnTouch = true;
 }
 
 
@@ -123,6 +130,13 @@ function keyDownHandler(e){
             }
         }
 
+        if(PlayIntroOnTouch){
+            var NewSound = new Audio("Intro.wav");
+            NewSound.play();
+            PlayIntroOnTouch = false;
+            console.log("playex")
+        }
+
     }
 
     if(e.key == "a" || e.key == "A"){
@@ -135,6 +149,13 @@ function keyDownHandler(e){
                 char.KCombo[2] = "XMove"
             }
         }
+        }
+
+        if(PlayIntroOnTouch){
+            var NewSound = new Audio("Intro.wav");
+            NewSound.play();
+            PlayIntroOnTouch = false;
+            console.log("started")
         }
     }
 

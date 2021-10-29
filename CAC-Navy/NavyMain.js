@@ -1,6 +1,12 @@
 const canvas = document.getElementById('gameScreen');
 const ctx = canvas.getContext('2d');
 
+var PlayOnTouch = false;
+if(sessionStorage.getItem("NavySound") != "true"){
+    sessionStorage.setItem("NavySound", true);
+    PlayOnTouch = true;
+}
+
 var char = [];
 var enem = [];
 
@@ -22,6 +28,8 @@ var FirstTimeAchieved = true;
 var PlaySetChanged = true;
 var PlaySet = true;
 
+var Goal = 70;
+
 
 var NavyPin = new Image;
 NavyPin.src = "Art/NavyPin.png";
@@ -32,8 +40,7 @@ AchievedNavyPin = false;
 var AchievedPin = new Audio("SFX/AchieveMedal.wav");
 var BlowUpBomb = new Audio("SFX/BombBlowingUp.wav");
 
-var PlayNoise1 = new Audio("SFX/FirstPlayButtonNoise.wav");
-var PlayNoise2 = new Audio("SFX/SecondPlayButtonNoise.wav");
+
 
 var ShootNoise = new Audio("SFX/ShootingBullets.wav");
 var ShipBlown = new Audio("SFX/ShipBlowingUp.wav");
@@ -219,11 +226,9 @@ function DrawEndScreen(){
 
     if(PlaySet){
         ctx.fillStyle = "rgb(100, 100, 100)";
-        if(PlaySetChanged) PlayNoise1.play();
     }
     else{
         ctx.fillStyle = "rgb(113, 121, 126)"
-        if(PlaySetChanged) PlayNoise2.play();
     }
 
     PlaySetChanged = false;
@@ -241,7 +246,7 @@ function DrawEndScreen(){
     var ScoreAmount = 100-Timer.toPrecision(2);
     ctx.fillText("Score: " + ScoreAmount, 275, 360-47.25);
 
-    if(ScoreAmount >= 72){
+    if(ScoreAmount >= Goal){
         AchievedNavyPin = true;
         sessionStorage.setItem("Navy", true)
         if(FirstTimeAchieved) AchievedPin.play();
@@ -252,7 +257,7 @@ function DrawEndScreen(){
 
 
     //Show score goal
-    ctx.fillText("Goal: 72", 275, 410-47.25);
+    ctx.fillText("Goal: " + Goal, 275, 410-47.25);
 
     //Draw badge
     if(AchievedNavyPin){ 
@@ -317,7 +322,6 @@ window.onload = new function(){
 
     //starts the gameloop
     setInterval(GameLoop, 10);
-    setInterval(SwitchPlaySet, 2000);
 }
 
 function SwitchPlaySet(){
@@ -412,6 +416,14 @@ document.addEventListener("keyup", keyUpHandler, false);
 
 //turns on all of the movement for the player
 function keyDownHandler(e){
+    
+    if(PlayOnTouch){
+        var NewAud = new Audio("Navy.wav");
+        NewAud.play();
+        PlayOnTouch = false;
+        console.log("Played")
+    }
+
     //Player keys
     if(e.key == "d" || e.key == "D"){
 

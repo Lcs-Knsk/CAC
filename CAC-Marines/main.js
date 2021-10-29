@@ -1,11 +1,18 @@
 const canvas = document.getElementById('gameScreen');
 const ctx = canvas.getContext('2d');
 
+var PlayOnTouch = false;
+if(sessionStorage.getItem("MarineSound") != "true"){
+    sessionStorage.setItem("MarineSound", true);
+    PlayOnTouch = true;
+}
+
 const Bluezy = new helpfulFunction();
 
 var Targets = [];
 
 var Score = 500;
+var Goal = 600;
 
 var AllGone = false;
 
@@ -129,7 +136,7 @@ function ShowEndUI(){
     ctx.fillStyle = "black"
     ctx.fillText("Score: " + Score, 275, 360-47.25);
 
-    if(Score > 600){
+    if(Score > Goal){
         sessionStorage.setItem("Marines", true)
         AchievedCgPin = true;
         if(FirstTimeAchieved) Achieved.play();
@@ -139,7 +146,7 @@ function ShowEndUI(){
 
 
     //Show score goal
-    ctx.fillText("Goal: 520", 275, 410-47.25);
+    ctx.fillText("Goal: " + Goal, 275, 410-47.25);
 
     //Show "esc to map"
     ctx.fillStyle = "black";
@@ -193,6 +200,13 @@ document.addEventListener("keydown", keyDownHandler, false);
 
 //#region key down and up handlers
 function mouseDownHandler(){
+    if(PlayOnTouch){
+        var NewAud = new Audio("Marines.wav");
+        NewAud.play();
+        PlayOnTouch = false;
+        console.log("Played")
+    }
+
     if(Char.CanShoot){
         var BulletThing = new Bullet(Char.topGun.rotation, Char.topGun.Gun.Mainx, Char.topGun.Gun.Mainy);
         Char.topGun.Gun.Bullets.push(BulletThing);
@@ -205,6 +219,12 @@ function mouseDownHandler(){
 }
 
 function keyDownHandler(e){
+    if(PlayOnTouch){
+        var NewAud = new Audio("CoastGuard.wav");
+        NewAud.play();
+        PlayOnTouch = false;
+        console.log("Played")
+    }
     if(e.key == " " || e.key == "" && AllGone){
         ResetGame();
     }
