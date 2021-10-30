@@ -14,6 +14,45 @@ var leftMomentum = 0.5;
 var isAlive = true;
 var goal = 25;
 var score = 0;
+var PinImg = new Image();
+PinImg.src = "Graphics/ArmyPin.png";
+var NotPinImg = new Image();
+NotPinImg.src = "Graphics/NotGottenPin.png";
+
+function Reset(){
+	keyLeft = false;
+	keyRight = false;
+	speedMax = 3;
+	speed = 0.2;
+	rightMomentum = 0.5;
+	leftMomentum = 0.5;
+	isAlive = true;
+	userY = 100;
+	userX = 200;
+	//cloud variables
+	numClouds = 10;
+	cloudPosX = [];
+	cloudPosY = [];
+	numBirds = 15;
+	birdPosX = [];
+	birdPosY = [];
+	birdDirection = [];
+	birdColor = [];
+	birdAnimFrame = [];
+	for (i = 0; i < numClouds; i++){
+			cloudPosX[i] = Math.round((Math.random() * (800)));
+			cloudPosY[i] = Math.round(800 + (Math.random() * (20000*i - 800*i)));
+	}
+
+	for (i = 0; i < numBirds; i++){
+		birdPosX[i] = Math.round((Math.random() * (800)));
+		birdPosY[i] = Math.round(400 + (Math.random() * (800*i - 400*i)));
+		birdDirection[i] = Math.round(1 + Math.random() * 2 - 1);
+		birdColor[i] = Math.round(Math.random() * 3);
+		birdAnimFrame[i] = Math.round(Math.random() * 3);
+	}
+	score = 0;
+}
 
 initThings();
 
@@ -58,21 +97,26 @@ function updatePlayer(){
 }
 
 function keyDownHandler(e){
-    if (e.keyCode == '37'){
+    if (e.keyCode == '37' || e.key == "A" || e.key == "a"){
         keyLeft = true;
         
     }
-    if (e.keyCode == '39'){
-    	keyRight = true;
-    	
+    if (e.keyCode == '39' || e.key == "D" || e.key == "d"){
+    	keyRight = true;	
     }
+	if(e.key == " " && !isAlive){
+		Reset();
+	}
+	if(e.keyCode == "27" && !isAlive){
+		history.go(-1)
+	}
 }
 function keyUpHandler(e){
-	if (e.keyCode == '37'){
+	if (e.keyCode == '37' || e.key == "A" || e.key == "a"){
         keyLeft = false;
         
     }
-    if (e.keyCode == '39'){
+    if (e.keyCode == '39' || e.key == "D" || e.key == "d"){
     	keyRight = false;
     	
     }
@@ -129,19 +173,8 @@ var animFrame = 1;
 //draws character in right frame
 function drawChar(){
 	if(isAlive){
-		if(Math.abs(leftMomentum - rightMomentum)<=0.5){
-			this.Anim.PlayerImage.src = "Graphics/paraSprite3.png";
-			ctx.drawImage(this.Anim.PlayerImage, userX, userY);
-		}
-		
-	   	else if((leftMomentum - rightMomentum) > 0.5){
-	   		this.Anim.PlayerImage.src = "Graphics/paraSprite2.png";
-	   		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
-	   	}
-	   	else if((rightMomentum - leftMomentum) > 0.5){
-	   		this.Anim.PlayerImage.src = "Graphics/paraSprite1.png";
-	   		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
-	   	}	
+		this.Anim.PlayerImage.src = "Graphics/paraSprite3.png";
+		ctx.drawImage(this.Anim.PlayerImage, userX, userY);
 	}
 	
     
@@ -246,19 +279,16 @@ function updateBird(){
 
 function collisionDetection(){
 	for(i = 0; i < numBirds; i++){
-		if((userX >= birdPosX[i] && userX <= birdPosX[i]  + this.Bird.FrameWidth) || 
-			(userX + userWidth >= birdPosX[i] && userX + userWidth <= birdPosX[i]  + this.Bird.FrameWidth)){
-			if(birdPosY[i] <= userY + 130 && birdPosY[i] >= userY - 30){
-				console.log("you died");
+		if(userY+userHeight-20 >= birdPosY[i] && birdPosY[i]+60>userY){				
+			if(userX+userWidth >= birdPosX[i] && userX <= birdPosX[i]+60){
 				isAlive = false;
-			}		
+			}
 		}
 	}
 }
 
 function drawEndUI(){
     //reset screen
-
    	let img = document.createElement("crash");
    	let crash = new Image();
    	crash.src = "Graphics/paraCrash.png";
@@ -266,6 +296,9 @@ function drawEndUI(){
    	ctx.drawImage(crash, 267, 0, 40, 100, userX, userY, 60, 160);
    	userY += speed * 10;
     if(userY >= 800){
+		if(score > goal){
+			sessionStorage.setItem("Army", true);
+		}
 	    ctx.globalAlpha = 0.002;
 	    ctx.fillStyle = "gray";
 	    ctx.fillRect(0, 0, 1200, 500,);
@@ -287,6 +320,22 @@ function drawEndUI(){
 	    //Bottom middle line
 	    ctx.fillRect(393, 303-47.25, 6, 147);
 
+		//Show "esc to map"
+		ctx.fillStyle = "black";
+		ctx.lineWidth = 11;
+		ctx.strokeRect(120+5.5, 444.5-47.25, 544, 94.5);
+		
+		ctx.fillText("Esc to go back to map", 120+5.5+20 , 506-47.25)
+
+		if(sessionStorage.getItem("Army") == "true"){
+			//draw got pin
+			ctx.drawImage(PinImg, 440, 263, 180, 120);
+		}
+		else{
+			//draw not got pin
+			ctx.drawImage(NotPinImg, 440, 263, 180, 120);
+		}
+
 	    //Draw the "Hit space to play button"
 	    ctx.fillStyle = "red";
 	    ctx.fillRect(131, 161-47.25, 533, 136);
@@ -305,7 +354,7 @@ function drawEndUI(){
 }
 
 function scoreStuff(){
-	score++;
+	if(isAlive) score++;
 }
 
 document.addEventListener("keydown", keyDownHandler, false);
