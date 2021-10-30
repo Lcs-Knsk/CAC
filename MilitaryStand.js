@@ -12,6 +12,7 @@ class MilitaryStandThing{
         this.NavyImg = new Image();
         this.SpaceforceImg = new Image();
         this.AirforceImg = new Image();
+        this.ArmyImg = new Image();
 
         this.NotGottenPin = new Image();
         this.NotGottenPin.src = "SpritesAndStuff/NotGottenPin.png";
@@ -21,6 +22,7 @@ class MilitaryStandThing{
         this.NavyImg.src = "SpritesAndStuff/NavyPin.png";
         this.SpaceforceImg.src = "SpritesAndStuff/SpaceForcePin.png";
         this.AirforceImg.src = "SpritesAndStuff/AirForcePin.png"
+        this.ArmyImg.src = "SpritesAndStuff/ArmyPin.png";
 
         this.InMenu = false;
         this.Colliding = false;
@@ -84,7 +86,7 @@ class MilitaryStandThing{
         //second row
         ctx.font = "40px Trebuchet MS";
         ctx.fillText("Army", 750, 410)
-        if(PinsCollected.Army == 'true') console.log();
+        if(PinsCollected.Army == 'true') ctx.drawImage(this.ArmyImg, 705, 300+40, 180, 120)
         else ctx.drawImage(this.NotGottenPin, 705, 300+40, 180, 120);
 
         ctx.font = "30px Trebuchet MS"
@@ -117,7 +119,7 @@ class MilitaryStandThing{
             newWin = window.open("CAC-CoastG/index.html","_self")
         }
         if(this.MouseHit(705, 340, 180, 120, "Army") && PinsCollected.Army == "false" && this.InMenu){
-            //newWin = window.open("","_self")
+            newWin = window.open("CAC-Army/army.html","_self")
         }
         if(this.MouseHit(410, 340, 180, 120, "Air force") && PinsCollected.Airforce == "false" && this.InMenu){
             newWin = window.open("CAC-Airforce/obsticalCourse.html","_self")
