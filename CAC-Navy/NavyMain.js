@@ -100,9 +100,9 @@ function Reset(){
 function GameLoop(){
 
     if(GamePlaying){
-        
+
         //reset screen
-        ctx.fillStyle = "rgb(0, 119, 190)"
+        ctx.fillStyle = "#009ffd"
         ctx.fillRect(0, 0, 1000, 600);
 
 

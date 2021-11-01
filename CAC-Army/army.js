@@ -19,6 +19,13 @@ PinImg.src = "Graphics/ArmyPin.png";
 var NotPinImg = new Image();
 NotPinImg.src = "Graphics/NotGottenPin.png";
 
+var PlayOnTouch = false;
+if(sessionStorage.getItem("ArmySound") != "true"){
+    sessionStorage.setItem("ArmySound", true);
+    PlayOnTouch = true;
+}
+
+
 function Reset(){
 	keyLeft = false;
 	keyRight = false;
@@ -59,6 +66,7 @@ initThings();
 function GameLoop(){
 	ctx.clearRect(0, 0, 800, 600);
 	collisionDetection();
+	isAlive = true;
 	drawSky();
 	drawClouds();
 	drawBirds();
@@ -72,6 +80,8 @@ function GameLoop(){
 	ctx.fillStyle = "white"
     ctx.font = "40px Trebuchet MS";
     ctx.fillText("Score: "+ score, 610, 50);
+
+
 }
 
 function drawSky(){
@@ -97,6 +107,11 @@ function updatePlayer(){
 }
 
 function keyDownHandler(e){
+	if(PlayOnTouch){
+		PlayOnTouch = false;
+		var NewSond = new Audio("Army.wav");
+		NewSond.play();
+	}
     if (e.keyCode == '37' || e.key == "A" || e.key == "a"){
         keyLeft = true;
         
@@ -279,12 +294,13 @@ function updateBird(){
 
 function collisionDetection(){
 	for(i = 0; i < numBirds; i++){
-		if(userY+userHeight-20 >= birdPosY[i] && birdPosY[i]+60>userY){				
-			if(userX+userWidth >= birdPosX[i] && userX <= birdPosX[i]+60){
+		if(userY+userHeight-4 >= birdPosY[i] && birdPosY[i]+60>userY){				
+			if(userX+userWidth-4 >= birdPosX[i] && userX+4 <= birdPosX[i]+60){
 				isAlive = false;
 			}
 		}
 	}
+
 }
 
 function drawEndUI(){

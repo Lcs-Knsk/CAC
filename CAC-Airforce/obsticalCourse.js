@@ -2,6 +2,8 @@
 const canvas = document.getElementById('GameScreen');
 const ctx = canvas.getContext('2d');
 
+var PlaneTiltAngle = -5;
+
 var PinImg = new Image();
 PinImg.src = "AirForcePin.png";
 var NotPinImg = new Image();
@@ -13,6 +15,10 @@ if(sessionStorage.getItem("AirforceSound") != "true"){
     sessionStorage.setItem("AirforceSound", true);
     PlayOnTouch = true;
 }
+
+var JustPlaneImg = new Image();
+JustPlaneImg.src = "JustPlaneImg.png";
+
 
 // USER VARIABLES \\
 /* user state */
@@ -26,6 +32,9 @@ var playerSpeedY = 0;
 var playerJumping = false;
 var hit = false;
 var goal = 40;
+
+ctx.lineWidth = 11;
+
 
 
 function Reset(){
@@ -265,8 +274,14 @@ this.Anim.PlayerImage.src = "airplaneSprite.png";
 
 //draws character in right frame
 function drawChar(){
-    ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*animFrame, this.Anim.FrameHeight*2,
-                this.Anim.FrameWidth, this.Anim.FrameHeight, 180, userY, 80, 80);
+
+    if(keySpace){
+        Draw()
+    }
+    else{   
+        ctx.drawImage(this.Anim.PlayerImage, (this.Anim.FrameWidth)*animFrame, this.Anim.FrameHeight*2,
+        this.Anim.FrameWidth, this.Anim.FrameHeight, 180, userY, 80, 80);
+    }
     if(userY >= 380){
         animFrame = 6;
     }
@@ -276,7 +291,22 @@ function drawChar(){
     if(userY <= 380 && userY >= 340){
         animFrame = 5;
     }
+
+
+
+
 }
+
+function Draw(){
+    ctx.translate(220, userY+40);
+    ctx.rotate(PlaneTiltAngle*Math.PI/180);
+    ctx.drawImage(JustPlaneImg, -40, -40, 80, 80);
+    
+    ctx.rotate(-PlaneTiltAngle*Math.PI/180);
+    ctx.translate(-220, -userY-40);
+
+}
+
 // creates obsticals
 var numObsticals = 5;
 var obsticalPosX = [];
