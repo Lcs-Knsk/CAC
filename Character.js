@@ -1,7 +1,7 @@
 class Character{
     constructor(XPos, YPos){
         this.Main = {
-            X: XPos,
+            X: 358,
             Y: YPos,
 
             Height: 64,
@@ -22,7 +22,7 @@ class Character{
 
         //contains all of the animation variables
         this.Anim = {
-            FrameRow: 0,
+            FrameRow: 2,
             PlayerImage: new Image,
 
             FrameWidth: 50,
